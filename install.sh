@@ -19,7 +19,7 @@ fail() {
 echo "Configure Service "
 sed "s|/opt/dynhost_ovh_livebox/|${currentdir}/|g" "${currentdir}/dynhost_ovh_livebox.service" > "/etc/systemd/system/dynhost_ovh_livebox.service"
 echo "Configure Timer "
-cp "${currentdir}/dynhost_ovh_livebox.timer" > "/etc/systemd/system/dynhost_ovh_livebox.timer"
+cp "${currentdir}/dynhost_ovh_livebox.timer" "/etc/systemd/system/dynhost_ovh_livebox.timer"
 
 echo "Start service & timer"
 systemctl daemon-reload
