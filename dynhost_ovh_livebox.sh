@@ -98,7 +98,20 @@ IP=$(curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}' 
 # IPv6=$(curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}' \
 #         http://${LIVEBOX:-livebox}/sysbus/NMC:getWANStatus \
 #         | sed -e 's/.*"IPv6Address":"\(.*\)","IPv6D.*/\1/g')
-OLDIP=$(dig +short @${LIVEBOX} ${DYNHOST})
+
+# Get NS entry for authority on the DYNHOST
+NS_ENTRY=''
+dig +short "${DYNHOST#*.}" NS > "${TMPFILE}"
+if [ $(wc -l "${TMPFILE}") -gt 1 ]; then
+  NS_ENTRY="$(head -1 "${TMPFILE}")"
+  log "Found NS for ${DYNHOST} : ${NS_ENTRY}"
+else
+  NS_ENTRY="${LIVEBOX}"
+  log "No NS found for ${DYNHOST}, using : ${NS_ENTRY}"
+fi
+
+# get current IP of DynHost
+OLDIP=$(dig +short @${NS_ENTRY} ${DYNHOST})
 
 # Can not get current ip
 [[ -z "{IP}" ]] && fail "Could not find ip using livebox API"
