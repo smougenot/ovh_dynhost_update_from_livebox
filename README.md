@@ -1,5 +1,7 @@
 # Livebox to OVH DynHost
 
+[![CodeFactor](https://www.codefactor.io/repository/github/smougenot/ovh_dynhost_update_from_livebox/badge)](https://www.codefactor.io/repository/github/smougenot/ovh_dynhost_update_from_livebox)
+
 Updates (if required) the DynHost at OVH
 Uses Livebox rest api to query for public IP
 
