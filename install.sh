@@ -10,7 +10,7 @@ currentdir=$(cd -P -- "$(dirname -- "$BASH_SOURCE[0]")" && pwd -P)
 # Error message plus exit
 # $* message
 fail() {
-  >&2 echo -e "$(logTimestamp) $@"
+  >&2 echo -e "$(logTimestamp) " $@
   exit 1
 }
 
