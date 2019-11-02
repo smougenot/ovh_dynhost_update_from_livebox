@@ -21,7 +21,6 @@
 # - PASSWORD : DynHost credential 
 # 
 # Optionals
-# - LOG_PATH : directory path to store logs (default /tmp)
 # - LIVEBOX  : the host name of the livebox seen by the macine running the script (default: livebox)
 # -------------------------------
 
@@ -45,11 +44,6 @@ LIVEBOX='livebox'
 # Tooling
 # -------------------------------
 
-# compute log file path
-logFile() {
-  echo "${LOG_PATH:-/tmp}/${currentfile%%.*}.log"
-}
-
 logTimestamp() {
   echo "$(date +%Y%m%d-%T)"
 }
@@ -57,13 +51,13 @@ logTimestamp() {
 # log message
 # $* message
 log() {
-  echo -e "$(logTimestamp) $@" >> $(logFile)
+  echo -e "$(logTimestamp) $@"
 }
 
 # Error message plus exit
 # $* message
 fail() {
-  >&2 echo -e "$(logTimestamp) $@" >> $(logFile)
+  >&2 echo -e "$(logTimestamp) $@"
   exit 1
 }
 
@@ -123,8 +117,8 @@ log 'Try to update!'
 
 wget -q -O $TMPFILE \
     "http://www.ovh.com/nic/update?system=dyndns&hostname=${DYNHOST}&myip=${IP}" \
-    --user="${LOGIN}" --password="${PASSWORD}" \ 
-    >> $(logFile)
+    --user="${LOGIN}" --password="${PASSWORD}"
+
 RESULT=$(cat $TMPFILE)
 log "Result: $RESULT"
 if [[ $RESULT =~ ^(good|nochg).* ]]; then
