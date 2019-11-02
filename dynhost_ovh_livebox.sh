@@ -7,7 +7,8 @@
 # Updates (if required) the DynHost at OVH
 # Mainly inspired by DynHost script given by OVH
 # This script uses 
-# - curl to get the public IP, and 
+# - curl to get the public IP and 
+# - dig to get the current IP for the dynhost and
 # - wget to push new IP
 #
 # Config :
@@ -20,7 +21,6 @@
 # - PASSWORD : DynHost credential 
 # 
 # Optionals
-# - LOG_PATH : directory path to store logs (default /tmp)
 # - LIVEBOX  : the host name of the livebox seen by the macine running the script (default: livebox)
 # -------------------------------
 
@@ -34,8 +34,8 @@ currentfile="${0##*/}"
 # dns subdomain to update
 DYNHOST="${DYNHOST:-}"
 # OVH dyndns credentials
-LOGIN="${LOGIN!-}"
-PASSWORD="${PASSWORD!-}"
+LOGIN="${LOGIN:-}"
+PASSWORD="${PASSWORD:-}"
 LOG_PATH="${LOG_PATH:-/tmp}"
 # Livebox host (to access rest API on the box)
 LIVEBOX='livebox'
@@ -44,11 +44,6 @@ LIVEBOX='livebox'
 # Tooling
 # -------------------------------
 
-# compute log file path
-logFile() {
-  echo "${LOG_PATH:-/tmp}/${currentfile%%.*}.log"
-}
-
 logTimestamp() {
   echo "$(date +%Y%m%d-%T)"
 }
@@ -56,13 +51,13 @@ logTimestamp() {
 # log message
 # $* message
 log() {
-  echo -e "$(logTimestamp) $@" >> $(logFile)
+  echo -e "$(logTimestamp) $@"
 }
 
 # Error message plus exit
 # $* message
 fail() {
-  >&2 echo -e "$(logTimestamp) $@" >> $(logFile)
+  >&2 echo -e "$(logTimestamp) $@"
   exit 1
 }
 
@@ -112,15 +107,18 @@ log "Old IP: ${OLDIP}"
 log "New IP: ${IP}"
 
 # Nothing to do
-[[ "${OLDIP}" == "${IP}" ]] && fail "IP ${DYNHOST} ${OLDIP} is identical to WAN ${IP}! No update required."
+if [[ "${OLDIP}" == "${IP}" ]]; then
+  log "IP ${DYNHOST} ${OLDIP} is identical to WAN ${IP}! No update required."
+  exit 0
+fi
 
 # At this point DNS entry needs update
 log 'Try to update!'
 
 wget -q -O $TMPFILE \
     "http://www.ovh.com/nic/update?system=dyndns&hostname=${DYNHOST}&myip=${IP}" \
-    --user="${LOGIN}" --password="${PASSWORD}" \ 
-    >> $(logFile)
+    --user="${LOGIN}" --password="${PASSWORD}"
+
 RESULT=$(cat $TMPFILE)
 log "Result: $RESULT"
 if [[ $RESULT =~ ^(good|nochg).* ]]; then
