@@ -45,19 +45,19 @@ LIVEBOX='livebox'
 # -------------------------------
 
 logTimestamp() {
-  echo "$(date +%Y%m%d-%T)"
+  date +%Y%m%d-%T
 }
 
 # log message
 # $* message
 log() {
-  echo -e "$(logTimestamp) $@"
+  echo -e "$(logTimestamp) " $@
 }
 
 # Error message plus exit
 # $* message
 fail() {
-  >&2 echo -e "$(logTimestamp) $@"
+  >&2 echo -e "$(logTimestamp) " $@
   exit 1
 }
 
@@ -114,7 +114,7 @@ fi
 OLDIP=$(dig +short @${NS_ENTRY} ${DYNHOST})
 
 # Can not get current ip
-[[ -z "{IP}" ]] && fail "Could not find ip using livebox API"
+[[ -z "${IP}" ]] && fail "Could not find ip using livebox API"
 
 log "Old IP: ${OLDIP}"
 log "New IP: ${IP}"
