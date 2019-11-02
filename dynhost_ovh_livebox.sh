@@ -34,8 +34,8 @@ currentfile="${0##*/}"
 # dns subdomain to update
 DYNHOST="${DYNHOST:-}"
 # OVH dyndns credentials
-LOGIN="${LOGIN!-}"
-PASSWORD="${PASSWORD!-}"
+LOGIN="${LOGIN:-}"
+PASSWORD="${PASSWORD:-}"
 LOG_PATH="${LOG_PATH:-/tmp}"
 # Livebox host (to access rest API on the box)
 LIVEBOX='livebox'
