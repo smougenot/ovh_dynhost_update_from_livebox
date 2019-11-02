@@ -28,7 +28,7 @@
 set -o pipefail   # honor exit codes when piping
 set -o nounset  # fail on unset variables
 
-currentdir=$(cd -P -- "$(dirname -- "$BASH_SOURCE[0]")" && pwd -P)
+currentdir=$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
 currentfile="${0##*/}"
 
 # dns subdomain to update
