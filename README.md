@@ -5,7 +5,8 @@ Uses Livebox rest api to query for public IP
 
 Mainly inspired by DynHost script given by OVH
 This script uses 
-- curl to get the public IP, and 
+- curl to get the public IP and 
+- dig to get current IP of the DynHost and
 - wget to push new IP
 
 ## Config :
