@@ -20,3 +20,9 @@ Or direct environment variables
 ### Optionals
 - LOG_PATH : directory path to store logs (default /tmp)
 - LIVEBOX  : the host name of the livebox seen by the macine running the script (default: livebox)
+
+## Instalation of Systemd service + timer
+
+This repo provides SystemD tools to run the update automatically
+Just run as root the install script
+`sudo ./install.sh`

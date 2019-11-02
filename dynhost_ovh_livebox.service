@@ -1,0 +1,6 @@
+[Unit]
+Description=Run OVH DynHost update
+
+[Service]
+Type=simple
+ExecStart=/opt/dynhost_ovh_livebox/dynhost_ovh_livebox.sh

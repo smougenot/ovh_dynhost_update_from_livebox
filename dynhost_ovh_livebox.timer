@@ -1,0 +1,9 @@
+[Unit]
+Description=Run OVH DynHost update
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=1days
+
+[Install]
+WantedBy=timers.target
