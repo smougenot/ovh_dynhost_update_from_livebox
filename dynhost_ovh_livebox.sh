@@ -90,7 +90,7 @@ trap cleanup EXIT
 # -------------------------------
 
 log '----------------------------------'
-log 'DynHost update'
+log "DynHost update for ${DYNHOST}"
 
 IP=$(curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}'  \
         http://${LIVEBOX:-livebox}/sysbus/NMC:getWANStatus \
