@@ -102,7 +102,7 @@ IP=$(curl -s -X POST -H "Content-Type: application/json" -d '{"parameters":{}}' 
 # Get NS entry for authority on the DYNHOST
 NS_ENTRY=''
 dig +short "${DYNHOST#*.}" NS > "${TMPFILE}"
-if [ $(wc -l "${TMPFILE}") -gt 1 ]; then
+if [ $(cat "${TMPFILE}" | wc -l) -gt 1 ]; then
   NS_ENTRY="$(head -1 "${TMPFILE}")"
   log "Found NS for ${DYNHOST} : ${NS_ENTRY}"
 else
