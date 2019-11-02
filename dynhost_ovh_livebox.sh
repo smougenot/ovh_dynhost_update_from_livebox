@@ -7,7 +7,8 @@
 # Updates (if required) the DynHost at OVH
 # Mainly inspired by DynHost script given by OVH
 # This script uses 
-# - curl to get the public IP, and 
+# - curl to get the public IP and 
+# - dig to get the current IP for the dynhost and
 # - wget to push new IP
 #
 # Config :
@@ -112,7 +113,10 @@ log "Old IP: ${OLDIP}"
 log "New IP: ${IP}"
 
 # Nothing to do
-[[ "${OLDIP}" == "${IP}" ]] && fail "IP ${DYNHOST} ${OLDIP} is identical to WAN ${IP}! No update required."
+if [[ "${OLDIP}" == "${IP}" ]]; then
+  log "IP ${DYNHOST} ${OLDIP} is identical to WAN ${IP}! No update required."
+  exit 0
+fi
 
 # At this point DNS entry needs update
 log 'Try to update!'
